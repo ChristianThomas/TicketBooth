@@ -1,19 +1,19 @@
 package frontend;
 
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileHandler {
-	 private static String fileName;
+	 private static String file;
 
-	public FileHandler(String fileName) {
-		 this.fileName = fileName;
+	public FileHandler(String file) {
+		 this.file = file;
 	}
 	
 	public static void append(String input)throws IOException{
-		FileOutputStream outputStream = new FileOutputStream(fileName,true);
-		byte[] strToBytes = input.getBytes();
-		outputStream.write(strToBytes);
-		outputStream.close();
+		FileWriter fr = new FileWriter(file,true);
+		fr.write(input);
+		fr.close();
 	}
 }
