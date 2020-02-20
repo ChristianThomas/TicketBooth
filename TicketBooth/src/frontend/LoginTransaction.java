@@ -21,9 +21,4 @@ public class LoginTransaction extends Transaction {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	TransactionResult accept(Logic l) {
-		return l.visitTransaction(this);
-	}
 }
