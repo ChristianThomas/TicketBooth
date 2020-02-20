@@ -1,8 +1,4 @@
-package frontend;
 
-public class Logic {
-	
-}
 package frontend;
 
 import java.util.ArrayList;
