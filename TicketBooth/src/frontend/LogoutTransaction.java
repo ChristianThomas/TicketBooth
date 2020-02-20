@@ -1,8 +1,8 @@
 package frontend;
 
 public class LogoutTransaction extends Transaction {
-	LogoutTransaction(String user) {
-		super(user);
+	LogoutTransaction() {
+		super("");
 		// TODO Auto-generated constructor stub
 	}
 
@@ -14,5 +14,11 @@ public class LogoutTransaction extends Transaction {
 	@Override
 	PrivilegeLevel getPrivilege() {
 		return PrivilegeLevel.LOGGEDIN;
+	}
+
+	@Override
+	String getTransactionString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

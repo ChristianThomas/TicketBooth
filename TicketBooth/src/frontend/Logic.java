@@ -1,70 +1,71 @@
 package frontend;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Logic {
-	private String username;
-	private UserType usertype;
+	private User currentUser;
 	private ArrayList<TransactionResult> sessionTransactions;
 	
-	private CurrentUsersHandler currentUsers;
+	private CurrentUsersHandler currentUsersHandler;
 	//private AvailableTicketsHandler availableTickets;
 	//private DailyTransactionHandler dailyTransactionFile;
 	
-	Logic(String currentUsersPath) {
-		this.username = null;
-		this.usertype = null;
+	Logic(CurrentUsersHandler currentUsersHandler) {
+		this.currentUser = null;
 		this.sessionTransactions = new ArrayList<TransactionResult>();
-		this.currentUsers = new CurrentUsersHandler(currentUsersPath);
+		this.currentUsersHandler = currentUsersHandler;
 	}
 	
-	public TransactionResult processTransaction(Transaction transaction) {
+	public TransactionResult processTransaction(Transaction transaction) throws IOException {
+		if(!transaction.getPrivilege().getAllowedUserType().contains(this.currentUser.getUserType())) {
+			return new TransactionResult(transaction, false, "You do not have permission to issue this transaction.");
+		}
 		if(transaction instanceof LoginTransaction) {
-			return processTransaction((LoginTransaction) transaction);
+			return login((LoginTransaction) transaction);
 		}
 		else if(transaction instanceof LogoutTransaction) {
-			return processTransaction((LogoutTransaction) transaction);
+			return logout((LogoutTransaction) transaction);
 		}
-		return null;
-	}
-	
-	// LoginTransaction
-	public TransactionResult processTransaction(LoginTransaction transaction) {
-		UserType privilege = currentUsers.getUser(transaction.user);
-		if(privilege == null) {
-			return new TransactionResult(transaction, false, "User not found.");
-		}
-		else {
-			this.username = transaction.user;
-			this.usertype = privilege;
-			return new TransactionResult(transaction, true, "Logged in as " + this.username);
-		}
+		return new TransactionResult(transaction, false, "Transaction code '" + transaction.getTransactionCode() + "' not yet implemented.");
 	}
 	
 	private boolean isLoggedIn() {
-		if(this.username != null && this.username != "") {
-			return true;
-		} else {
+		if(this.currentUser == null) {
 			return false;
+		} else {
+			return true;
+		}
+	}
+
+	// LoginTransaction
+	public TransactionResult login(LoginTransaction transaction) {
+		User user = currentUsersHandler.getUser(transaction.user);
+		
+		if(isLoggedIn()) {
+			return new TransactionResult(transaction, false, "Already logged in as " + this.currentUser.getUsername());
+		}
+		
+		if(user == null) {
+			return new TransactionResult(transaction, false, "User not found.");
+		}
+		else {
+			this.currentUser = user;
+			return new TransactionResult(transaction, true, "Logged in as " + this.currentUser.getUsername());
 		}
 	}
 	
-	public TransactionResult processTransaction(LogoutTransaction transaction) {
-		UserType privilege = currentUsers.getUser(transaction.user);
-		if(privilege == null) {
-			return new TransactionResult(transaction, false, "User not found.");
-		}
-
+	// LogoutTransaction
+	public TransactionResult logout(LogoutTransaction transaction) throws IOException {
 		if(!isLoggedIn()) {
 			return new TransactionResult(transaction, false, "Not Logged In.");
 		}
 		else {
 			for(TransactionResult tr : sessionTransactions) {
 				if(tr.status)
-					currentUsers.writeTransaction(transaction);
+					currentUsersHandler.writeTransaction(transaction);
 			}
-			this.username = null;
-			this.usertype = null;
+			this.currentUser = null;
 			return new TransactionResult(transaction, true, "Successfully logged out Daily Transaction File written");
 		}
 	}

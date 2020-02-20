@@ -9,16 +9,9 @@ public class InputParser {
 		this.stdin = new Scanner(System.in);
 	}
 	
-	// Implemented so far: Login, Logout
-	public Transaction parseInput() {
-		String in = stdin.next();
-		if(in.equals("login")) {
-			return parseLogin();
-		} 
-		else if (in.equals("logout")) {
-			return new LogoutTransaction("");
-		}
-		return null;
+	// For the while loop in main
+	public boolean hasNext() {
+		return stdin.hasNext();
 	}
 	
 	// If you ever need a yes/no confirmation, use this
@@ -30,13 +23,23 @@ public class InputParser {
 				return true;
 			} else if (in.startsWith("n")) {
 				return false;
+			} else {
+				System.out.println("Input not recognized, try again.");
 			}
 		}
 	}
 	
-	// For the while loop in main
-	public boolean hasNext() {
-		return stdin.hasNext();
+	// Implemented so far: Login, Logout
+	public Transaction parseInput() {
+		String in = stdin.next();
+		switch(in) {
+		case "login":
+			return parseLogin();
+		case "logout":
+			return new LogoutTransaction();
+		default:
+			return null;
+		}
 	}
 	
 	// Returns a login transaction

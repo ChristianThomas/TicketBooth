@@ -13,4 +13,5 @@ public abstract class Transaction {
 	
 	abstract String getTransactionCode();
 	abstract PrivilegeLevel getPrivilege();
+	abstract String getTransactionString();
 }
