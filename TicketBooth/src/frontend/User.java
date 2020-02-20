@@ -1,6 +1,8 @@
 package frontend;
 
 public class User {
+	static final User loggedOutUser = new User("", UserType.NOTLOGGEDIN, 0.0f);
+	
 	private final String username;
 	private final UserType usertype;
 	private float balance;
@@ -9,6 +11,10 @@ public class User {
 		this.username = username;
 		this.usertype = usertype;
 		this.balance = balance;
+	}
+	
+	static User getLoggedOutUser() {
+		return loggedOutUser;
 	}
 	
 	public String getUsername() {

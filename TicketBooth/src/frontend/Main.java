@@ -13,13 +13,25 @@ public class Main {
 		InputParser inputParser = new InputParser();
 
 		// Instantiating our state-keeping objects
-		Logic logic = new Logic(new CurrentUsersHandler(currentUsersFile));
+		Logic logic = new Logic(inputParser,
+				new CurrentUsersHandler(currentUsersFile));
+		// At the end this will look like this:
+		/* 
+		 * Logic logic = new Logic(inputParser, 
+		 * 						   new CurrentUsersHandler(currentUsersFile), 
+		 * 						   new DailyTransactionFileHandler(dailyTransactionFile),
+		 * 						   new AvailableTicketsHandler(availableTicketsFile));
+		 */
 		
 		// Program loop
 		while(inputParser.hasNext()) {
-			Transaction transaction = inputParser.parseInput();
-			if(transaction == null) continue;
-
+			// Read in a transaction
+			Transaction transaction = inputParser.parseTransactionCode();
+			if(transaction == null) {
+				System.out.println("Transaction code not recognized.");
+				continue;
+			}
+			// Perform the transaction
 			TransactionResult result;
 			try {
 				result = logic.processTransaction(transaction);

@@ -7,12 +7,13 @@ public enum PrivilegeLevel {
 	SELL		(UserType.ADMIN, UserType.FULLSTANDARD, UserType.SELLSTANDARD),
 	BUY			(UserType.ADMIN, UserType.FULLSTANDARD, UserType.BUYSTANDARD),
 	LOGGEDIN	(UserType.ADMIN, UserType.FULLSTANDARD, UserType.SELLSTANDARD, UserType.BUYSTANDARD),
-	NOTLOGGEDIN
+	NOTLOGGEDIN (UserType.NOTLOGGEDIN)
 	;
 	
 	private EnumSet<UserType> allowedUserType;
 	
 	PrivilegeLevel(UserType ... a) {
+		allowedUserType = EnumSet.noneOf(UserType.class);
 		for(UserType ut : a) {
 			allowedUserType.add(ut);
 		}

@@ -1,5 +1,7 @@
 package frontend;
 
+import java.io.IOException;
+
 public class LogoutTransaction extends Transaction {
 	LogoutTransaction() {
 		super("");
@@ -20,5 +22,10 @@ public class LogoutTransaction extends Transaction {
 	String getTransactionString() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	TransactionResult accept(Logic l) {
+		return l.visitTransaction(this);
 	}
 }

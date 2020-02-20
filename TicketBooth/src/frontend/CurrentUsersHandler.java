@@ -15,6 +15,10 @@ public class CurrentUsersHandler extends FileHandler {
 	
 	public void writeTransaction(Transaction tr) throws IOException {
 		// STUB
-		append(tr.getTransactionString());
+		System.out.println("CurrentUsersFile < " + tr.getTransactionString());
+	}
+	
+	public void writeEndOfSession() throws IOException {
+		System.out.println("CurrentUsersFile < " + "00                        ");
 	}
 }
