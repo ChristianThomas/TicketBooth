@@ -1,5 +1,18 @@
 package frontend;
 
 public class LoginTransaction extends Transaction {
-	final PrivilegeLevel privileve = PrivilegeLevel.NOTLOGGEDIN;
+	LoginTransaction(String user) {
+		super(user);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	String getTransactionCode() {
+		return "login";
+	}
+
+	@Override
+	PrivilegeLevel getPrivilege() {
+		return PrivilegeLevel.NOTLOGGEDIN;
+	}
 }
