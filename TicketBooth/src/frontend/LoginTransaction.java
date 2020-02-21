@@ -15,4 +15,15 @@ public class LoginTransaction extends Transaction {
 	PrivilegeLevel getPrivilege() {
 		return PrivilegeLevel.NOTLOGGEDIN;
 	}
+
+	@Override
+	String getTransactionString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public TransactionResult accept(Logic l) {
+		return l.visitTransaction(this);
+	}
 }

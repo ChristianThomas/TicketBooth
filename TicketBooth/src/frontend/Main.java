@@ -1,16 +1,45 @@
 package frontend;
 
+import java.io.IOException;
+
+
 public class Main {
+	// Specifying file paths
+	static public String currentUsersFile = "CUF";
+	static public String dailyTransactionFile = "DTF";
+	static public String availableTicketsFile = "ATF";
+	
 	public static void main(String args[]) {
-		// Instantiating our state-keeping objects
 		InputParser inputParser = new InputParser();
-		Logic logic = new Logic("SAMPLE FILE PATH");
+
+		// Instantiating our state-keeping objects
+		Logic logic = new Logic(inputParser,
+				new CurrentUsersHandler(currentUsersFile));
+		// At the end this will look like this:
+		/* 
+		 * Logic logic = new Logic(inputParser, 
+		 * 						   new CurrentUsersHandler(currentUsersFile), 
+		 * 						   new DailyTransactionFileHandler(dailyTransactionFile),
+		 * 						   new AvailableTicketsHandler(availableTicketsFile));
+		 */
 		
 		// Program loop
 		while(inputParser.hasNext()) {
-			Transaction transaction = inputParser.parseInput();
-			TransactionResult result = logic.processTransaction(transaction);
-			System.out.println(result.message);
+			// Read in a transaction
+			Transaction transaction = inputParser.parseTransactionCode();
+			if(transaction == null) {
+				System.out.println("Transaction code not recognized.");
+				continue;
+			}
+			// Perform the transaction
+			TransactionResult result;
+			try {
+				result = logic.processTransaction(transaction);
+				System.out.println(result.message);
+			} catch (IOException e) {
+				System.out.println("IOException Caught");
+				e.printStackTrace();
+			}
 		}
 		
 		// Done
