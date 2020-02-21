@@ -5,23 +5,25 @@ import java.io.IOException;
 
 public class Main {
 	// Specifying file paths
-	static public String currentUsersFile = "CUF";
-	static public String dailyTransactionFile = "DTF";
-	static public String availableTicketsFile = "ATF";
+	static public String currentUsersFile = "src/CurrentUserAccounts";
+	static public String dailyTransactionFile = "src/DailyTransactionFile";
+	static public String availableTicketsFile = "src/AvailableTicketsFile";
 	
 	public static void main(String args[]) {
 		InputParser inputParser = new InputParser();
 
 		// Instantiating our state-keeping objects
-		Logic logic = new Logic(inputParser,
-				new CurrentUsersHandler(currentUsersFile));
-		// At the end this will look like this:
-		/* 
-		 * Logic logic = new Logic(inputParser, 
-		 * 						   new CurrentUsersHandler(currentUsersFile), 
-		 * 						   new DailyTransactionFileHandler(dailyTransactionFile),
-		 * 						   new AvailableTicketsHandler(availableTicketsFile));
-		 */
+		Logic logic = null;
+		try {
+			logic = new Logic(inputParser,
+					new CurrentUsersHandler(currentUsersFile),
+					new AvailableTicketsHandler(availableTicketsFile),
+					new DailyTransactionFileHandler(dailyTransactionFile));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		
 		// Program loop
 		while(inputParser.hasNext()) {

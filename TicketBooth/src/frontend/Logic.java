@@ -1,5 +1,6 @@
 package frontend;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -19,20 +20,23 @@ public class Logic {
 	private InputParser inputParser;	// Use this to ask the user for yes/no
 	
 	private CurrentUsersHandler currentUsersHandler;
-	//private AvailableTicketsHandler availableTicketsHandler;
-	//private DailyTransactionHandler dailyTransactionFile;
+	private AvailableTicketsHandler availableTicketsHandler;
+	private DailyTransactionFileHandler dailyTransactionHandler;
 	
 	/*
 	 * Constructor for Logic object.
 	 * Takes in three file handlers.
 	 */
-	Logic(InputParser inputParser, CurrentUsersHandler currentUsersHandler) {
+	Logic(InputParser inputParser, 
+			CurrentUsersHandler currentUsersHandler,
+			AvailableTicketsHandler availableTicketsHandler,
+			DailyTransactionFileHandler dailyTransactionHandler) {
 		this.currentUser = User.getLoggedOutUser();
 		this.sessionTransactions = new ArrayList<TransactionResult>();
 		this.inputParser = inputParser;
 		this.currentUsersHandler = currentUsersHandler;
-		//this.availableTicketsHandler = availableTicketsHandler;
-		//this.dailyTransactionFileHandler = dailyTransactionFileHandler;
+		this.availableTicketsHandler = availableTicketsHandler;
+		this.dailyTransactionHandler = dailyTransactionHandler;
 	}
 	
 	/*
@@ -57,11 +61,7 @@ public class Logic {
 	 * Writes everything in sessionTransactions, followed by an EndOfSession line.
 	 */
 	private void writeDailyTransactionFile() throws IOException {
-		for(TransactionResult tr : sessionTransactions) {
-			if(tr.status)
-				currentUsersHandler.writeTransaction(tr.transaction);
-		}
-		currentUsersHandler.writeEndOfSession();
+		dailyTransactionHandler.writeTransactions(sessionTransactions);
 	}
 	
 	/*
@@ -73,7 +73,13 @@ public class Logic {
 	 */
 	public TransactionResult visitTransaction(LoginTransaction transaction) {		
 		// Login logic
-		User user = currentUsersHandler.getUser(transaction.user);
+		User user = null;
+		try {
+			user = currentUsersHandler.getUser(transaction.user);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		TransactionResult res;
 		if(user == null) {
 			res = new TransactionResult(transaction, false, "User not found.");
@@ -105,6 +111,37 @@ public class Logic {
 		// Clear currentUser
 		this.currentUser = User.getLoggedOutUser();
 		return new TransactionResult(transaction, true, "Successfully logged out Daily Transaction File written");
+	}
+	
+	// CreateTransaction
+	public TransactionResult visitTransaction(CreateTransaction transaction) {
+		User tmp = new User(transaction.user, transaction.usertype, transaction.balance);
+		try {
+			this.currentUsersHandler.createUser(tmp);
+			TransactionResult result = new TransactionResult(transaction, true, "Successfully created user.");
+			sessionTransactions.add(result);
+			return result;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new TransactionResult(transaction, false, "Error:" + e.getMessage());
+		}
+	}
+	
+	// DeleteTransaction
+	public TransactionResult visitTransaction(DeleteTransaction transaction) {
+		//TODO CANCEL OUTSTANDING TICKETS
+		try {
+			if(this.currentUsersHandler.getUser(transaction.user) == null) {
+				return new TransactionResult(transaction, false, "Delete failed. Username not found.");
+			}
+			this.currentUsersHandler.deleteUser(transaction.user);
+			TransactionResult result = new TransactionResult(transaction, true, "Successfully deleted user.");
+			sessionTransactions.add(result);
+			return result;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new TransactionResult(transaction, false, "Error:" + e.getMessage());
+		}
 	}
 	
 	/*
