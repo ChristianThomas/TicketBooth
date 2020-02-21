@@ -15,7 +15,5 @@ public abstract class Transaction {
 	abstract PrivilegeLevel getPrivilege();
 	abstract String getTransactionString();
 	
-	public TransactionResult accept(Logic l) {
-		return l.visitTransaction(this);
-	}
+	abstract public TransactionResult accept(Logic l);
 }
