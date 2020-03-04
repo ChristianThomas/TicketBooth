@@ -21,8 +21,8 @@ public class Main {
 		InputParser inputParser = new InputParser();
 
 		if(args.length == 2) {
-			currentUsersFile = args[1];
-			availableTicketsFile = args[2];
+			currentUsersFile = args[0];
+			availableTicketsFile = args[1];
 		}
 
 		// Instantiating our state-keeping objects
