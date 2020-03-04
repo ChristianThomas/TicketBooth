@@ -5,7 +5,11 @@ If you're running this on eclipse, great! Simply run Main.java
 
 If you're running this on Unix/Linux, run the compileProgram.sh and runProgram.sh scripts in the project directory!
 
-For both of these methods, you may specify the following two
+For both of these methods, you may specify the following two command-line arguments.  
+```bash
+bash> ./runProgram <Path to users file> <Path to tickets file>
+```
+
 
 ## Organization
 

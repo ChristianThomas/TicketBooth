@@ -20,6 +20,11 @@ public class Main {
 	public static void main(String args[]) {
 		InputParser inputParser = new InputParser();
 
+		if(args.length == 2) {
+			currentUsersFile = args[1];
+			availableTicketsFile = args[2];
+		}
+
 		// Instantiating our state-keeping objects
 		Logic logic = null;
 		try {

@@ -1,5 +1,8 @@
 #!/bin/bash
 CLASSPATH=bin
 
-java -classpath "$CLASSPATH" frontend.Main
-echo "Program exited with code: $?"
+if [ $# -eq 2 ]; then
+	java -classpath "$CLASSPATH" frontend.Main "$1" "$2"
+else
+	java -classpath "$CLASSPATH" frontend.Main
+fi
