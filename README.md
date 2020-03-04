@@ -44,14 +44,14 @@ For each test:
 	- Name each test descriptively  
 	- For the sake of simplicity of our testing suite, we will follow this naming convention:  
 		- Input Stream: stdin  
-		- Expected Output Stream: egstdout
-		- Output Stream from Test: stdout  
-		- Input files: .in  extension:
-			- AvailableTicketsFile.in
-			- CurrentUserAccounts.in
-		- Expected files: .eg  extension
-			- AvailableTicketsFile.eg
-			- CurrentUserAccounts.eg
-			- DailyTransactionFile.eg
+		- Expected Output Stream: egstdout  
+		- Output Stream from Test: stdout   
+		- Input files: .in  extension:  
+			- AvailableTicketsFile.in  
+			- CurrentUserAccounts.in  
+		- Expected files: .eg  extension  
+			- AvailableTicketsFile.eg  
+			- CurrentUserAccounts.eg  
+			- DailyTransactionFile.eg  
 	- Output files from the test run are stored in the same directory, without any special extensions.  
 	- Test report will be named: TESTREPORT.txt  
