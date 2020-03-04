@@ -2,6 +2,14 @@ package frontend;
 
 import java.io.IOException;
 
+/*
+ * This is the main class, which contains the entry point to our program.
+ * 
+ * To implement a new transaction:
+ * 1. Create a subclass of abstract class Transaction and implement all the required methods.
+ * 2. Edit InputParser.parseTransactionCode(); to return the new transaction object.
+ * 3. Add method visitTransaction(<Your Type>) to class Logic, and implement the business logic.
+ */
 
 public class Main {
 	// Specifying file paths
@@ -16,12 +24,13 @@ public class Main {
 		Logic logic = null;
 		try {
 			logic = new Logic(inputParser,
-					new CurrentUsersHandler(currentUsersFile),
-					new AvailableTicketsHandler(availableTicketsFile),
-					new DailyTransactionFileHandler(dailyTransactionFile));
+							  new CurrentUsersHandler(currentUsersFile),
+							  new AvailableTicketsHandler(availableTicketsFile),
+							  new DailyTransactionFileHandler(dailyTransactionFile)
+							  );
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
+			return;
 		}
 		
 		

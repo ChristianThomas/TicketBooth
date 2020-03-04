@@ -1,6 +1,5 @@
 package frontend;
 
-import java.io.IOException;
 
 public class LogoutTransaction extends Transaction {
 	LogoutTransaction() {

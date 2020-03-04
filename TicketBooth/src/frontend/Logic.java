@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Transactions are processed using the processTransaction() method, which leverages the Visitor
  * 	  pattern to dynamically call the correct method to handle a concrete subclass of 'Transaction'.
  */
-public class Logic {
+public class Logic {	
 	private User currentUser;
 	private ArrayList<TransactionResult> sessionTransactions;
 	
@@ -40,7 +40,7 @@ public class Logic {
 	}
 	
 	/*
-	 * This method takes is called from Main, and is where privilege levels are enforced before
+	 * This method called from Main, and is where privilege levels are enforced before
 	 *   the transaction is processed using the Transaction.accept() method.
 	 * The visitor pattern is implemented to dynamically use the correct method to handle that transaction.
 	 * 
@@ -51,6 +51,8 @@ public class Logic {
 		if(!transaction.getPrivilege().getAllowedUserType().contains(this.currentUser.getUserType())) {
 			return new TransactionResult(transaction, false, "You do not have permission to issue this transaction.");
 		}
+		
+		// Transaction exposes the accept() method of the Visitor pattern.
 		TransactionResult res = transaction.accept(this);
 
 		return res;
@@ -115,9 +117,11 @@ public class Logic {
 	
 	// CreateTransaction
 	public TransactionResult visitTransaction(CreateTransaction transaction) {
+		// Create the user object
 		User tmp = new User(transaction.user, transaction.usertype, transaction.balance);
 		try {
 			this.currentUsersHandler.createUser(tmp);
+			// Add transaction to the record, and return the result.
 			TransactionResult result = new TransactionResult(transaction, true, "Successfully created user.");
 			sessionTransactions.add(result);
 			return result;
@@ -131,10 +135,12 @@ public class Logic {
 	public TransactionResult visitTransaction(DeleteTransaction transaction) {
 		//TODO CANCEL OUTSTANDING TICKETS
 		try {
+			//Check if user exists
 			if(this.currentUsersHandler.getUser(transaction.user) == null) {
 				return new TransactionResult(transaction, false, "Delete failed. Username not found.");
 			}
 			this.currentUsersHandler.deleteUser(transaction.user);
+			// Add transaction to the record, and return the result.
 			TransactionResult result = new TransactionResult(transaction, true, "Successfully deleted user.");
 			sessionTransactions.add(result);
 			return result;
