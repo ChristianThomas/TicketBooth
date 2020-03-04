@@ -4,6 +4,8 @@ If you're running this on eclipse, great! Simply run Main.java
 
 If you're running this on Unix/Linux, run the compileProgram.sh and runProgram.sh scripts in the project directory!
 
+For both of these methods, you may specify the following two
+
 The organization is as follows:
 	<Project Directory: "TicketBooth">
 	|_	src/		// Where all the source files are
@@ -15,6 +17,9 @@ The organization is as follows:
 		|_	<TestType>/
 			|_	<TestName#>/
 				|_ <InputFiles>
+				|_ <ExpectedOutputFiles>
+				|_ <Output from last run>
+				|_ TESTREPORT		// The report of the last test run
 
 Tests are organized as follows:
 Types of tests:
@@ -28,6 +33,9 @@ For each test:
 	- Name each test descriptively
 	- For the sake of simplicity of our testing suite, we will follow this naming convention:
 		- Input Stream: .stdin
-		- Expected Output Stream: .stdout
-		- Input files: .inf
+		- Expected Output Stream: .egstdout
+		- Output Stream from Test: .stdout
+		- Input files: .in
 		- Expected files: .eg
+	- Output files from the test run are stored in the same directory, without any special extensions.
+	- Test report will be named: TESTREPORT.txt
