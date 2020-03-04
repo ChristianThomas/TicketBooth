@@ -17,8 +17,7 @@ public class CurrentUsersHandler extends FileHandler {
 			}
 		}
 		
-		//return null;
-		return new User(username, UserType.ADMIN, 0.0f);
+		return null;
 	}
 	
 	public void createUser(User user) throws IOException {
@@ -32,7 +31,7 @@ public class CurrentUsersHandler extends FileHandler {
 		ArrayList<String> tmp = this.read();
 		String rmLine = null;
 		for(String line : tmp) {
-			if(line.startsWith(User.getPaddedUsername(username))) {
+			if(line.startsWith(username + " ")) {
 				rmLine = line;
 			}
 		}

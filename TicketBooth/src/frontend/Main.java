@@ -13,9 +13,9 @@ import java.io.IOException;
 
 public class Main {
 	// Specifying file paths
-	static public String currentUsersFile = "src/CurrentUserAccounts";
-	static public String dailyTransactionFile = "src/DailyTransactionFile";
-	static public String availableTicketsFile = "src/AvailableTicketsFile";
+	static public String currentUsersFile = "CurrentUserAccounts";
+	static public String dailyTransactionFile = "DailyTransactionFile";
+	static public String availableTicketsFile = "AvailableTicketsFile";
 	
 	public static void main(String args[]) {
 		InputParser inputParser = new InputParser();
