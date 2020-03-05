@@ -43,8 +43,12 @@ bash -c "$RUNSCRIPT $CUA $ATF < $STDIN > $STDOUT"
 # Getting the daily transaction file
 cp ../../../Files/DailyTransactionFile .
 
-# Compare the output with the expected inputs
-
+# Compare the output with the expected inputs and add results to report file
+if !diff STDIN STDOUT
+then
+	echo "Passed test $1 > TESTREPORT.txt
+else
+	echo "Failed test $1 > TESTREPORT.txt
+fi
 # Create report for this test
 
-echo "I am a test!" > TESTREPORT.txt
