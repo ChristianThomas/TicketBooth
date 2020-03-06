@@ -1,0 +1,21 @@
+diff AvailableTicketsFile.eg AvailableTicketsFile yielded no differences
+diff CurrentUserAccounts.eg CurrentUserAccounts yielded no differences
+diff DailyTransactionFile.eg DailyTransactionFile yielded the following differences:
+1,3c1,2
+< 01 testuser        FS 000000000.00
+< 00 admin           AA 000000000.00
+< 
+---
+> 01 testuser        AA 000000.00
+> 00
+diff egstdout stdout yielded the following differences:
+1,5c1,2
+< Enter username: 
+< Logged in as admin
+< Enter desired username: 
+< Enter desired balance: 
+< Enter desired UserType: 1) Admin, 2) Full-Standard, 3) Buy-Standard, 4) Sell-Standard
+---
+> Enter username: Logged in as admin
+> Enter desired username: Enter desired balance: Enter desired UserType: 1) Admin, 2) Full-Standard, 3) Buy-Standard, 4) Sell-Standard
+Test successful: no differences found between expected and output.

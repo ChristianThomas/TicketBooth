@@ -1,1 +1,7 @@
-I am a test!
+diff AvailableTicketsFile.eg AvailableTicketsFile yielded no differences
+diff CurrentUserAccounts.eg CurrentUserAccounts yielded the following differences:
+2d1
+< testSS          SS 001000.00
+diff DailyTransactionFile.eg DailyTransactionFile yielded no differences
+diff egstdout stdout yielded no differences
+Test successful: no differences found between expected and output.

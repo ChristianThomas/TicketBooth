@@ -6,6 +6,8 @@
 # Daily Transaction File is copied form the Files/ directory in the project root
 # Comparisons are made and a test report is made
 
+SUCCESS=true
+
 # SCRIPTPATH is the path this is in PROJROOT is the project root
 SCRIPT=$(readlink -f $0)
 SCRIPTPATH=`dirname $SCRIPT`
@@ -43,8 +45,28 @@ bash -c "$RUNSCRIPT $CUA $ATF < $STDIN > $STDOUT"
 # Getting the daily transaction file
 cp ../../../Files/DailyTransactionFile .
 
-# Compare the output with the expected inputs
+# Compare the output with the expected inputs and create output
+function testFile {
+	diff "$1" "$2" > _tmp
+	if [ -s _tmp ]; then
+		SUCCESS=false
+		echo "diff $1 $2 yielded the following differences:" >> TESTREPORT.txt
+		cat _tmp >> TESTREPORT.txt
+	else
+		echo "diff $1 $2 yielded no differences" >> TESTREPORT.txt
+	fi
+	rm _tmp
+}
 
-# Create report for this test
 
-echo "I am a test!" > TESTREPORT.txt
+rm TESTREPORT.txt
+
+testFile "AvailableTicketsFile.eg" "AvailableTicketsFile"
+testFile "CurrentUserAccounts.eg" "CurrentUserAccounts"
+testFile "DailyTransactionFile.eg" "DailyTransactionFile"
+testFile "egstdout" "stdout"
+if [ $SUCCESS ]; then
+	echo "Test successful: no differences found between expected and output." >> TESTREPORT.txt
+else
+	echo "Test Failed: Differences found between expected and output." >> TESTREPORT.txt
+fi

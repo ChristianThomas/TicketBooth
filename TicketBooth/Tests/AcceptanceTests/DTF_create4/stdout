@@ -1,0 +1,4 @@
+Enter username: Logged in as admin
+Enter desired username: Enter desired balance: Enter desired UserType: 1) Admin, 2) Full-Standard, 3) Buy-Standard, 4) Sell-Standard
+Successfully created user.
+Successfully logged out Daily Transaction File written

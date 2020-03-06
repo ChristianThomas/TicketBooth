@@ -1,0 +1,21 @@
+diff AvailableTicketsFile.eg AvailableTicketsFile yielded no differences
+diff CurrentUserAccounts.eg CurrentUserAccounts yielded the following differences:
+1c1
+< peter           AA 001000.00
+---
+> testuser        AA 001000.00
+diff DailyTransactionFile.eg DailyTransactionFile yielded the following differences:
+1,2c1
+< 00 testuser        AA 000000000.00
+< 
+---
+> 00
+diff egstdout stdout yielded the following differences:
+1,3c1,2
+< Enter username: 
+< Logged in as peter
+< Succesfully logged out Daily Transaction File written
+---
+> Enter username: Logged in as testuser
+> Successfully logged out Daily Transaction File written
+Test successful: no differences found between expected and output.
